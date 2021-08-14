@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TypeAttribute ;
 use App\http\Requests\attribute\StoreRequest ;
+use App\http\Requests\attribute\UpdateRequest ;
 use App\Models\Attribute ;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\Datatables\Datatables;
@@ -120,7 +121,7 @@ class AttributeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreRequest $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
         // check
         $model = Attribute::find($id) ;

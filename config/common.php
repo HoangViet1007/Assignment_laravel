@@ -13,6 +13,13 @@
                'active' => 1 ,
            ] ,
         ] ,
+       'roles' => [
+           'status' => [
+               'disabled' => 0 ,
+               'active' => 1 ,
+           ] ,
+           'customer' => 17,
+        ] ,
 
         'products' => [
             'status' => [

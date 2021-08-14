@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-use App\Models\user ;
+use App\Models\User ;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\Messages\MailMessage;
 
 
 class AuthServiceProvider extends ServiceProvider
@@ -56,6 +58,15 @@ class AuthServiceProvider extends ServiceProvider
         $this->defineGatePost() ;
         //invioce
         $this->defineGateInvioce() ;
+        //admin
+        $this->defineGateAdminAccess() ;
+
+        VerifyEmail::toMailUsing(function ($notifiable, $url) {
+            return (new MailMessage)
+                ->subject('Xác thực email để truy cập hệ thống')
+                ->line('Nhấp vào nút bên dưới để xác minh địa chỉ email của bạn.')
+                ->action('Xác thực email', $url);
+        });
     }
     public function defineGateProduct(){
         Gate::define('product_list','App\Policies\ProductPolicy@view');
@@ -87,17 +98,17 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('permission_edit','App\Policies\PermissionPolicy@update');
         Gate::define('permission_delete','App\Policies\PermissionPolicy@delete');
     }
-    public function defineGateTypeAttribute(){
-        Gate::define('type_attribute_list','App\Policies\TypeAttributePolicy@view');
-        Gate::define('type_attribute_add','App\Policies\TypeAttributePolicy@create');
-        Gate::define('type_attribute_edit','App\Policies\TypeAttributePolicy@update');
-        Gate::define('type_attribute_delete','App\Policies\TypeAttributePolicy@delete');
-    }
     public function defineGateAttribute(){
         Gate::define('attribute_list','App\Policies\AttributePolicy@view');
         Gate::define('attribute_add','App\Policies\AttributePolicy@create');
         Gate::define('attribute_edit','App\Policies\AttributePolicy@update');
         Gate::define('attribute_delete','App\Policies\AttributePolicy@delete');
+    }
+    public function defineGateTypeAttribute(){
+        Gate::define('type_attribute_list','App\Policies\TypeAttributePolicy@view');
+        Gate::define('type_attribute_add','App\Policies\TypeAttributePolicy@create');
+        Gate::define('type_attribute_edit','App\Policies\TypeAttributePolicy@update');
+        Gate::define('type_attribute_delete','App\Policies\TypeAttributePolicy@delete');
     }
     public function defineGateCategoryPost(){
         Gate::define('category_post_list','App\Policies\CategoryPostPolicy@view');
@@ -116,5 +127,9 @@ class AuthServiceProvider extends ServiceProvider
         // Gate::define('invioce_add','App\Policies\InviocePolicy@create');
         Gate::define('invioce_edit','App\Policies\InviocePolicy@update');
         Gate::define('invioce_delete','App\Policies\InviocePolicy@delete');
+    }
+
+    public function defineGateAdminAccess(){
+        Gate::define('access_admin','App\Policies\AdminAccessPolicy@view');
     }
 }

@@ -63,7 +63,7 @@ class HomeController extends Controller
         ->where('products.status',1)->where('product_options.is_main',1)->limit(1)->orderBy('sale','DESC')->first(); ;
 
 
-        // lấy za danh mục cos trong bảng sản phẩm
+        // lấy za danh mục điện thoại  cos trong bảng sản phẩm
         $category_in_table_product = Product::join('categories','categories.id','products.category_id')
         ->select(['products.category_id','categories.name as name_cate','categories.id as id_categories','categories.slug as slug_categories'])->where('categories.parent_id',1)->distinct()->get() ;
 

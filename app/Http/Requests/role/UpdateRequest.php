@@ -26,7 +26,7 @@ class UpdateRequest extends FormRequest
         return [
             'name'             => 'required|min:2|unique:roles,name,' .request()->id ,
             'display_name'     => 'required' ,
-            'status'           => 'required'
+            'status'           => 'required|in:'.implode(',',config('common.roles.status')) ,
         ];
     }
     public function messages()
@@ -39,6 +39,7 @@ class UpdateRequest extends FormRequest
             'display_name.required' => 'Hãy nhập mô tả cho chức vụ !',
 
             'status.required'       => 'Hãy nhập trạng thái hoạt động !',
+            'status.in'                 => 'Trạng thái hoạt động không hợp lệ !' ,
 
         ];
     }

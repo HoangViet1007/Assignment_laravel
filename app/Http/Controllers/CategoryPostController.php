@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\TypeAttribute;
-use App\http\Requests\type_attribute\StoreRequest;
-use App\http\Requests\type_attribute\UpdateRequest;
+use App\Models\CategoryPost ;
+use App\Models\Post ;
+use App\http\Requests\category_post\StoreRequest ;
+use App\http\Requests\category_post\UpdateRequest ;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Log;
-use function PHPSTORM_META\type;
 
-class Type_attributeController extends Controller
+
+class CategoryPostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,18 +20,18 @@ class Type_attributeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function __construct(){
-        $this->middleware('can:type_attribute_list',['only'=>['index','anyData']]) ;
-        $this->middleware('can:type_attribute_add',['only'=>['create','store']]) ;
-        $this->middleware('can:type_attribute_edit',['only'=>['edit','update']]) ;
-        $this->middleware('can:type_attribute_delete',['only'=>['destroy']]) ;
+        $this->middleware('can:category_post_list',['only'=>['index','anyData']]) ;
+        $this->middleware('can:category_post_add',['only'=>['create','store']]) ;
+        $this->middleware('can:category_post_edit',['only'=>['edit','update']]) ;
+        $this->middleware('can:category_post_delete',['only'=>['destroy']]) ;
     }
     public function index()
     {
-        return view('admin.type_attribute.list_type_attribute') ;
+        return view('admin.category_post.list_category_post') ;
     }
 
     public function anyData(Request $request){
-        $data = TypeAttribute::select(['id','name','status']);
+        $data = CategoryPost::select(['id','name','status'])->orderBy('id','DESC');
         return Datatables::of($data)
         ->filter(
             function ($query) use ($request) {
@@ -52,7 +53,7 @@ class Type_attributeController extends Controller
      */
     public function create()
     {
-        return view('admin.type_attribute.add_type_attribute') ;
+        return view('admin.category_post.add_category_post') ;
     }
 
     /**
@@ -63,7 +64,7 @@ class Type_attributeController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        if(TypeAttribute::create($request->all())){
+        if(CategoryPost::create($request->all())){
             return back()->with('success','Thêm thông tin thành công !') ;
         }
     }
@@ -88,12 +89,12 @@ class Type_attributeController extends Controller
     public function edit($id)
     {
         // check
-        $model = TypeAttribute::find($id) ;
+        $model = CategoryPost::find($id);
         if(!$model){
-             return back()->with('err','Thông tin này không tồn tại !') ;
-        }else{
-            return view('admin.type_attribute.edit_type_attribute',compact('model')) ;
-        }
+            return back()->with('err','Thông tin này không tồn tại !') ;
+         }else{
+            return view('admin.category_post.edit_category_post',compact('model')) ;
+         }
     }
 
     /**
@@ -103,17 +104,17 @@ class Type_attributeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        // chekc xem
-        $model = TypeAttribute::find($id) ;
+        // check
+        $model = CategoryPost::find($id) ;
         if(!$model){
             return back()->with('err','Thông tin này không tồn tại !') ;
         }else{
-            if(TypeAttribute::where('id',$id)->update($request->only('name','slug','status'))){
-                return redirect()->route('type_attribute.index')->with('success','Update thông tin thành công !') ;
+             // ok
+             if(CategoryPost::where('id',$id)->update($request->only('name','slug','status'))){
+                return redirect()->route('category_post.index')->with('success','Update thông tin thành công !');
             }
-
         }
     }
 
@@ -125,13 +126,13 @@ class Type_attributeController extends Controller
      */
     public function destroy($id)
     {
-        // kiểm tra xem id này có tồn tại trong database hay là ko
-        $model = TypeAttribute::find($id);
+        $model = CategoryPost::find($id);
         if (!$model) {
-            return redirect()->route('type_attribute.index')->with('err', 'Thông tin này không tồn tại !');
+            return redirect()->route('category_post.index')->with('err', 'Thông tin này không tồn tại !');
         } else {
             try {
-                TypeAttribute::destroy($id);
+                CategoryPost::destroy($id);
+
                 return response()->json([
                     'code' => 200,
                     'message' => 'success'

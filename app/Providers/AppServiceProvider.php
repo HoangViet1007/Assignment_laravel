@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator ;
 use Illuminate\Support\Facades\View ;
 use App\Models\Websetting ;
+use App\Models\Product ;
 use App\Models\Category ;
 use Illuminate\Support\Facades\Session;
 
@@ -42,7 +43,11 @@ class AppServiceProvider extends ServiceProvider
        // lấy danh muc cha
        $category_parent = Category::where('parent_id',0)->get() ;
 
+       // lấy za danh mục cos trong bảng sản phẩm
+       $category_table_product = Product::join('categories','categories.id','products.category_id')
+       ->select(['products.category_id','categories.name as name_cate','categories.id as id_categories','categories.slug as slug_categories'])->distinct()->get() ;
+
        // laays gio han
-       view()->share(['websetting' => $websetting , 'category' => $category,'category_parent'=>$category_parent,'category_id_khac_o'=>$category_id_khac_o]);
+       view()->share(['websetting' => $websetting , 'category' => $category,'category_parent'=>$category_parent,'category_id_khac_o'=>$category_id_khac_o,'category_table_product' => $category_table_product]);
     }
 }

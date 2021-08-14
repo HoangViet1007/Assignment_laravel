@@ -9,6 +9,7 @@ use App\Models\ProductAttribute;
 use App\Models\Attribute ;
 use App\Models\ProductOption ;
 use App\Models\ProductReview ;
+use Illuminate\Support\Facades\Log;
 
 class ProductClienController extends Controller
 {
@@ -101,10 +102,7 @@ class ProductClienController extends Controller
             )
             ->where('products.status',1)->where('product_options.is_main',1)->orderBy('id','asc')->paginate(12) ;
         }
-        //// check sidebar
-        if($request->has('category_id') == true){
-            dd($request->category_id) ;
-        }
+
         return view('homepage.product',compact('product')) ;
 
         // sản phẩm đang sale
@@ -185,6 +183,59 @@ class ProductClienController extends Controller
         // laays za slide anh thumbail
         $image_option = ProductOption::select('id','option_name','option_value','image','price','sale','amount','product_id')->where('product_id',$product->id_product)->get();
         return view('homepage.product_detail',compact('product','product_lq','image_option','attribute_value','attribute_value_main','attribute_value_cha','product_ngang','reviews'));
+    }
+
+    public function search(Request $request){
+        $data = Product::
+        join('product_options', 'product_options.product_id', 'products.id')
+        ->select(['products.id as id_product', 'products.name as name_product','products.slug as slug_product' ,'products.status as status_product', 'products.highlight', 'products.short_description', 'products.title',
+                  'product_options.price', 'product_options.sale', 'product_options.image', 'product_options.amount',
+                  ])
+                  ->where('products.name', 'like', "%{$request->keyword}%")->where('product_options.is_main', 1)->limit(6)->get();
+
+        if (!$data) {
+            return redirect()->route('home');
+        } else {
+            try {
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'success',
+                    'data' => $data
+                ], 200);
+            } catch (\Exception $exception) {
+                Log::error('Message' . $exception->getMessage() . '-- Line : ' . $exception->getLine());
+                return response()->json([
+                    'code' => 500,
+                    'message' => 'fail'
+                ], 500);
+            }
+        }
+    }
+
+    public function search2(Request $request){
+        if($request->category_id == ""){
+            $product = Product::
+            join('product_options', 'product_options.product_id','products.id')
+            ->join('categories','categories.id','products.category_id')
+            ->select(
+                       [   'products.id','products.name','products.slug','products.title','products.short_description','products.description','products.status as status_product','products.highlight',
+                           'products.category_id',
+                           'product_options.option_name','product_options.option_value','product_options.image','product_options.price','product_options.sale','product_options.amount',
+                       ]
+                   )->where('products.status',1)->where('product_options.is_main',1)->where('products.name', 'like', "%{$request->search_name}%")->orderBy('id','desc')->paginate(8);
+        }else{
+            $product = Product::
+            join('product_options', 'product_options.product_id','products.id')
+            ->join('categories','categories.id','products.category_id')
+            ->select(
+                       [   'products.id','products.name','products.slug','products.title','products.short_description','products.description','products.status as status_product','products.highlight',
+                           'products.category_id',
+                           'product_options.option_name','product_options.option_value','product_options.image','product_options.price','product_options.sale','product_options.amount',
+                       ]
+                   )->where('products.status',1)->where('product_options.is_main',1)->where('categories.id',$request->category_id)->where('products.name', 'like', "%{$request->search_name}%")->orderBy('id','desc')->paginate(8);
+        }
+
+        return view('homepage.search_product',compact('product')) ;
     }
 
 

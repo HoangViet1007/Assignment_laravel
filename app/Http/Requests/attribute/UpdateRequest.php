@@ -4,7 +4,7 @@ namespace App\Http\Requests\attribute;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'              => 'required|unique:attributes' ,
+            'name'              => 'required|unique:attributes,name,'. request()->id ,
             'slug'              => 'required' ,
             'value'             => 'required' ,
             'id_type'           => 'required' ,
@@ -36,6 +36,7 @@ class StoreRequest extends FormRequest
         return [
             'name.required'             => 'Hãy nhập tên thuộc tính !' ,
             'name.unique'                => 'Thuộc tính này đã tồn tại !',
+
 
             'slug.required'             => 'Hãy nhập slug !' ,
 

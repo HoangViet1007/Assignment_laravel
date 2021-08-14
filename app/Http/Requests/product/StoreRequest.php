@@ -29,8 +29,8 @@ class StoreRequest extends FormRequest
             'title'                         => 'required',
             'short_description'             => 'required|min:3',
             'description'                   => 'required|min:3',
-            'status'                        => 'required',
-            'highlight'                     => 'required',
+            'status'                        => 'required|in:'.implode(',',config('common.products.status')) ,
+            'highlight'                     => 'required|in:'.implode(',',config('common.products.highlight')) ,
             'category_id'                   => 'required',
 
             // 'attribute'                     => 'required',
@@ -67,8 +67,12 @@ class StoreRequest extends FormRequest
             'description.min'            => 'Nội dung sản phẩm phải có độ dài trên 3 kí tự !',
 
             'status.required'            => 'Hãy chọn trạng thái hoạt động !',
+            'status.in'                 => 'Trạng thái hoạt động không hợp lệ !' ,
+
 
             'highlight.required'         => 'Hãy chọn trạng thái đặc biệt !',
+            'highlight.in'                 => 'Trạng thái đặc biệt không hợp lệ !' ,
+
 
             'category_id.required'       => 'Hãy chọn danh mục sản phẩm !' ,
 

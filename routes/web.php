@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +22,29 @@ Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']
 
 Route::get('/','HomeController@home')->name('home');
 
+///// đăng nhập đăng kí người dùng
+Route::get('/register','UserClienController@create')->name('register') ;
+
+Route::post('/post-register','UserClienController@store')->name('post.register') ;
+
+Route::post('/post-login-clien','UserClienController@postLogin')->name('post.LoginClien') ;
+
+
+// /// xac minh email
+Route::get('/email/verify', function () {
+    return view('homepage.view_check_email');
+})->middleware('auth')->name('verification.notice');
+
+// khi người vào xác thực thì re redirect về home
+// id chính là id bản ghi mới tạo
+// hash tức là token khi tạo tài khoản vào đảm baỏ rặng khi vào lại đường dẫn này lần thứ 2 thì ko đc
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect()->route('home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+
 // card
 Route::prefix('gio-hang')->group(function () {
     Route::get('/danh-sach-gio-hang','CardController@listCard')->name('card');
@@ -33,22 +58,26 @@ Route::prefix('gio-hang')->group(function () {
 
 // them binh luạn
 Route::group(['prefix' =>'product_review'],function(){
-    Route::post('product_review2.store','Product_reviewController@store2')->name('product_review2.store2');
+    Route::post('product_review2.store','ProductReviewController@store2')->name('product_review2.store2');
 });
 
+// tin tức
 Route::get('/tin-tuc','BlogController@blog')->name('blog') ;
-
-
+// tim kiem san pham
+Route::post('tim-kiem-san-phan','ProductClienController@search2')->name('search2.sanpham') ;
+// tim kiem san pham
+Route::get('/tim-kiem-san-pham','ProductClienController@search')->name('search.sanpham') ;
+// tin tuc chi tiết
 Route::get('/tin-tuc/{slug}-{id}','BlogController@blogDetail')->name('blogDetail') ;
-
+// tin tức theo danh mục
 Route::get('/tin-tuc/danh-muc/{slug}-{id}','BlogController@blogCate')->name('blogCate') ;
-
+// danh sách san pham
 Route::get('/san-pham','ProductClienController@listProduct')->name('product_clien') ;
-
+// lien hẹ
 Route::get('/lien-he','ContactController@contact')->name('contact') ;
-
+// sa pham theo danh mục
 Route::get('/danh-muc/{slug}-{id}','ProductClienController@listProductCate')->name('product_clien_cate') ;
-
+// san pham chi tiết
 Route::get('/{slug}-{id}','ProductClienController@productDetail')->name('product_detail') ;
 
 
@@ -58,7 +87,7 @@ Route::get('login','AdminController@login')->name('admin.login') ;
 Route::post('post-login','AdminController@postlogin')->name('admin.postlogin') ;
 Route::get('logout','AdminController@logout')->name('admin.logout') ;
 
-Route::group(['prefix' => 'admin','middleware'=>'checkLogin'], function () {
+Route::group(['prefix' => 'admin','middleware'=>['checkLogin','can:access_admin']], function () {
 
     Route::get('/','DashboardController@dashboard')->name('admin.dashboard');
 
@@ -105,9 +134,9 @@ Route::group(['prefix' => 'admin','middleware'=>'checkLogin'], function () {
 
     // type attribute
     Route::group(['prefix' => 'type_attribute'], function () {
-        Route::get('/any', 'Type_attributeController@anyData')->name('type_attribute.anyData');
+        Route::get('/any', 'TypeAttributeController@anyData')->name('type_attribute.anyData');
     });
-    Route::resource('type_attribute','Type_attributeController');
+    Route::resource('type_attribute','TypeAttributeController');
 
     // category
     Route::group(['prefix' => 'category'], function () {
@@ -125,9 +154,9 @@ Route::group(['prefix' => 'admin','middleware'=>'checkLogin'], function () {
 
     // category_post (danh muc bai viet)
     Route::group(['prefix' => 'category_post'], function () {
-        Route::get('/any', 'Category_postController@anyData')->name('category_post.anyData');
+        Route::get('/any', 'CategoryPostController@anyData')->name('category_post.anyData');
     });
-    Route::resource('category_post','Category_postController');
+    Route::resource('category_post','CategoryPostController');
 
 
     // category_post
@@ -149,13 +178,13 @@ Route::group(['prefix' => 'admin','middleware'=>'checkLogin'], function () {
 
     // product option
     Route::group(['prefix' =>'product_option'],function(){
-        // Route::get('/any/{id}', 'Product_optionsController@anyData')->name('product_option.anyData');
-        Route::get('/{id}','Product_optionsController@index_id')->name('product_option.index_id') ;
-        Route::get('/create2/{id}','Product_optionsController@create2')->name('product_option.create2') ;
-        Route::post('/store2/{id}','Product_optionsController@store2')->name('product_option.store2') ;
-        Route::get('/edit/{id}','Product_optionsController@edit')->name('product_option.edit') ;
-        Route::post('/update/{id}','Product_optionsController@update')->name('product_option.update') ;
-        Route::get('/delete/{id}', 'Product_optionsController@destroy')->name('product_option.delete');
+        // Route::get('/any/{id}', 'ProductOptionController@anyData')->name('product_option.anyData');
+        Route::get('/{id}','ProductOptionController@index_id')->name('product_option.index_id') ;
+        Route::get('/create2/{id}','ProductOptionController@create2')->name('product_option.create2') ;
+        Route::post('/store2/{id}','ProductOptionController@store2')->name('product_option.store2') ;
+        Route::get('/edit/{id}','ProductOptionController@edit')->name('product_option.edit') ;
+        Route::post('/update/{id}','ProductOptionController@update')->name('product_option.update') ;
+        Route::get('/delete/{id}', 'ProductOptionController@destroy')->name('product_option.delete');
     });
 
     Route::group(['prefix' =>'user'],function(){
@@ -177,10 +206,10 @@ Route::group(['prefix' => 'admin','middleware'=>'checkLogin'], function () {
 
     // product_review
     Route::group(['prefix' =>'product_review'],function(){
-        Route::get('/any','Product_reviewController@anyData')->name('product_review.anyData');
-        Route::get('/list_product_review/{id}','Product_reviewController@ReviewProduct')->name('product_review.list_product_review');
+        Route::get('/any','ProductReviewController@anyData')->name('product_review.anyData');
+        Route::get('/list_product_review/{id}','ProductReviewController@ReviewProduct')->name('product_review.list_product_review');
     });
-    Route::resource('product_review','Product_reviewController');
+    Route::resource('product_review','ProductReviewController');
 
     // hoa don
      // product_review

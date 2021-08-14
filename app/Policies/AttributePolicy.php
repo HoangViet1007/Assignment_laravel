@@ -55,7 +55,7 @@ class AttributePolicy
      */
     public function update(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.acsess.attribute.attribute_edit')) ;
+        return $user->checkPermissionAccess('edit_attribute') ;
 
     }
 

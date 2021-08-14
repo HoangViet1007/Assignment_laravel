@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\product_option\StoreRequest ;
 use App\Http\Requests\product_option\UpdateRequest;
 
-class Product_optionsController extends Controller
+class ProductOptionController extends Controller
 {
     /**
      * Display a listing of the resource.

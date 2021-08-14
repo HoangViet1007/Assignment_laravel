@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ProductReview;
 
-class Product_reviewController extends Controller
+class ProductReviewController extends Controller
 {
     /**
      * Display a listing of the resource.

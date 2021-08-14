@@ -583,7 +583,6 @@
                 </div>
                 <!-- End Related products -->
             </div>
-
     </main>
 @endsection
 @section('css')
