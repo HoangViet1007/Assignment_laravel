@@ -27,7 +27,22 @@ Route::get('/register','UserClienController@create')->name('register') ;
 
 Route::post('/post-register','UserClienController@store')->name('post.register') ;
 
+Route::get('/login-clien','UserClienController@loginClien')->name('loginClien') ;
+//login khi người dùng chưa đăng nhập mà ấn xác thuẹc email login post
+Route::post('/post-login-clien2','UserClienController@postLogin2')->name('post.loginClien2') ;
+// login ajax
 Route::post('/post-login-clien','UserClienController@postLogin')->name('post.LoginClien') ;
+//logout clien
+Route::get('/logout-clien','UserClienController@logout')->name('logout') ;
+
+// quan lí profile user clien
+
+Route::group(['prefix' => 'tai-khoan','middleware'=>['auth','verified']], function () {
+    Route::get('/','UserClienController@listInvioce')->name('listInvioce') ;
+    Route::get('/account','UserClienController@account')->name('account') ;
+    Route::post('/edit-account/{id}','UserClienController@editAccount')->name('editAccount') ;
+    Route::post('/cancel_invioce/{id}','UserClienController@cancelInvioce')->name('cancelInvioce') ;
+});
 
 
 // /// xac minh email

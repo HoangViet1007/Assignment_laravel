@@ -84,8 +84,8 @@
             'status' => [
                 'dang_xu_li' => 1 ,
                 'dang_giao' => 2 ,
-                'thanh_cong' => 4,
-                'da_huy' => 5 ,
+                'thanh_cong' => 3,
+                'da_huy' => 4 ,
             ],
          ],
 

@@ -37,8 +37,75 @@
     <link rel="stylesheet" href="{{ asset('public_clien/css/theme.css') }}">
     <style>
         .li_search:hover{
-             background-color:rgb(253, 245, 245);
-             width: 102%;
+            background-color:#f8f8f5 ;
+        }
+        * {
+            padding: 0;
+            margin: 0
+        }
+
+        .content-center {
+            display: flex;
+            position:absolute ;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            left: -1235px;
+            cursor: pointer;
+        }
+
+        .pulse i {
+            color: #fff;
+            font-size: 11px;
+        }
+
+        .pulse {
+            height: 40px;
+            width: 40px;
+            background-color: #fed700;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .pulse::before {
+            content: "";
+            position: absolute;
+            border: 1px solid #fed700;
+            width: calc(100% + 10px);
+            height: calc(100% + 10px);
+            border-radius: 50%;
+            animation: pulse 1s linear infinite
+        }
+
+        .pulse::after {
+            content: "";
+            position: absolute;
+            border: 1px solid ORANGE;
+            width: calc(100% + 10px);
+            height: calc(100% + 10px);
+            border-radius: 50%;
+            animation: pulse 1s linear infinite;
+            animation-delay: 0.3s
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.5);
+                opacity: 0
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 1
+            }
+
+            100% {
+                transform: scale(1.3);
+                opacity: 0
+            }
         }
     </style>
     @yield('css')
@@ -62,7 +129,7 @@
                             <ul class="list-inline mb-0 ul-load">
                                 <li
                                     class="list-inline-item mr-0 u-header-topbar__nav-item u-header-topbar__nav-item-border">
-                                    <a href="contact-v2.html" class="u-header-topbar__nav-link"><i
+                                    <a href="#" class="u-header-topbar__nav-link"><i
                                             class="ec ec-map-pointer mr-1"></i>Địa chỉ</a>
                                 </li>
                                 <li
@@ -72,6 +139,7 @@
                                         <a id="sidebarNavToggler2" href="javascript:;" role="button" class="u-header-topbar__nav-link" aria-controls="sidebarContent2" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent2"
                                         data-unfold-type="css-animation" data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500"> <i class="ec ec-user mr-1"></i> <span class="text-gray-50"></span>{{Auth::user()->name}}</a>
                                     @else
+                                        @if ($routeName = Route::currentRouteName() != 'loginClien')
                                         <a id="sidebarNavToggler" href="javascript:;" role="button"
                                             class="u-header-topbar__nav-link" aria-controls="sidebarContent"
                                             aria-haspopup="true" aria-expanded="false" data-unfold-event="click"
@@ -81,6 +149,7 @@
                                             <i class="ec ec-user mr-1"></i> <span class="text-gray-50"></span> Đăng nhập or
                                             Đăng ký
                                         </a>
+                                        @endif
                                     @endif
                                     <!-- End Account Sidebar Toggle Button -->
                                 </li>
@@ -348,7 +417,7 @@
                             <div class="row search_home" style="display: none;">
                                 <div class="col-md-11">
                                     <div class="card" style="border:2px solid #fed700;padding:10px;height:auto;z-index:999;position: absolute;width:95%;">
-                                        <ul style="margin-left:-30px" class="ul_search">
+                                        <ul class="ul_search">
                                             <li style="list-style:none;" class="li_search">
                                                 <a href="//clickbuy.com.vn/ipad-9-7-2017-gen-5-32gb-4g-wifi-cu-99">
                                                     <div class="row">
@@ -1032,7 +1101,55 @@
 
                         <!-- Content -->
                         <div class="js-scrollbar u-sidebar__body">
-                            Hi : {{Auth::user()->name}}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-primary card-outline">
+                                        <div class="card-body box-profile">
+                                          <div class="text-center">
+                                            <img class="profile-user-img img-fluid img-circle" src="{{url('')}}/{{Auth::user()->image}}" alt="User profile" style="width:100px;height:100px;border-radius: 50%;">
+                                          </div>
+
+                                          <h3 class="profile-username text-center">{{Auth::user()->name}}</h3>
+                                          <p class="text-muted text-center">{{Auth::user()->email}}</p>
+                                          @php
+                                            $value = "- " ;
+                                             foreach (Auth::user()->roles as $a){
+                                                $value .= $a->name . "-" ;
+                                             }
+                                           @endphp
+                                          <p class="text-muted text-center" style="margin-top:-30px;">
+                                              @if(isset($value))
+                                               {{$value}}
+                                              @endif
+                                          </p>
+
+                                          <ul class="list-group list-group-unbordered mb-3">
+                                            <li class="list-group-item">
+                                              <b>SĐT</b> <a class="float-right">{{Auth::user()->phone}}</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                              <b>Địa chỉ</b> <a class="float-right">{{Auth::user()->address}}</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                              <b>Giới tính</b>
+                                              <a class="float-right">
+                                                  @if(Auth::user()->gender ==0)
+                                                  {{'Nữ'}}
+                                                  @elseif(Auth::user()->gender ==1)
+                                                  {{'Nam'}}
+                                                  @else
+                                                  {{''}}
+                                                  @endif
+                                              </a>
+                                            </li>
+                                          </ul>
+                                          <a href="{{ route('listInvioce') }}" class="btn btn-soft-secondary mb-3 mb-md-0 ml-2 font-weight-normal px-5 px-md-4 px-lg-5 w-100 w-md-auto delete_cart">Quan trị tài khoản</button>
+                                          <a href="{{route('logout')}}" class="btn btn-primary-dark-w ml-md-2 px-5 px-md-4 px-lg-5 w-100 w-md-auto d-none d-md-inline-block">Đăng xuất</a>
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!-- End Content -->
                     </div>
@@ -1209,6 +1326,14 @@
         data-offset-top="400" data-compensation="#header" data-show-effect="slideInUp" data-hide-effect="slideOutDown">
         <span class="fas fa-arrow-up u-go-to__inner"></span>
     </a>
+    <ul style="position:fixed;bottom:60px;right:15px;z-index:999;">
+        <li style="list-style:none;">
+            <div class="content-center" onclick="window.location='tel:0355755697';" >
+                <div class="pulse"> <i class="fas fa-phone fa-2x"></i> </div>
+            </div>
+        </li>
+    </ul>
+
     <!-- End Go to Top -->
 
     <!-- JS Global Compulsory -->
@@ -1298,14 +1423,13 @@
             })
         })
 
-
-
         // login form
         $(document).ready(function(){
             $('#login_form').on('submit',function(e){
                 e.preventDefault() ;
                 let _token = $('input[name="_token"]').val();
                 let url = '{!! route('post.LoginClien') !!}'
+                url_home = '{!! route('home') !!}'
                 let email = $('#email_login').val() ;
                 let password = $('#password_login').val() ;
 
@@ -1323,7 +1447,7 @@
                                 if(data.data == 0){
                                     $('.message').text('Đăng nhập thành công !') ;
                                     $('.message').css('color','red') ;
-                                    location.reload();
+                                    location.href = url_home ;
 
                                 }else if(data.data == 1){
                                     $('.message').text('Tài khoản hoặc mật khẩu không chính xác !') ;

@@ -107,12 +107,8 @@
                                                 <!-- End Apply coupon Form -->
                                             </div>
                                             <div class="d-md-flex">
-                                                <button type="button"
-                                                    class="btn btn-soft-secondary mb-3 mb-md-0 font-weight-normal px-5 px-md-4 px-lg-5 w-100 w-md-auto delete_cart"
-                                                    onclick="deleteCart()">Xoá giỏ hàng</button>
-                                                <a href="{{ route('getcheckout') }}"
-                                                    class="btn btn-primary-dark-w ml-md-2 px-5 px-md-4 px-lg-5 w-100 w-md-auto d-none d-md-inline-block">Thanh
-                                                    toán</a>
+                                                <button type="button" class="btn btn-soft-secondary mb-3 mb-md-0 font-weight-normal px-5 px-md-4 px-lg-5 w-100 w-md-auto delete_cart" onclick="deleteCart()">Xoá giỏ hàng</button>
+                                                <a href="{{ route('getcheckout') }}" class="btn btn-primary-dark-w ml-md-2 px-5 px-md-4 px-lg-5 w-100 w-md-auto d-none d-md-inline-block">Thanh toán</a>
                                             </div>
                                         </div>
                                     </div>

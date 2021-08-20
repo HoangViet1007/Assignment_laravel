@@ -27,7 +27,7 @@
                     <div class="login-wrap p-0">
                         <h3 class="mb-4 text-center">Have an account?</h3>
                         @if(session('thongbao'))
-                            <p style="color:red ;" class="text-center">  {{session('thongbao')}}</p>
+                            <p class="text-center" style="color:red;">  {{session('thongbao')}}</p>
                         @endif
                         @if(session('logout'))
                             <p class="text-center">  {{session('logout')}}</p>
