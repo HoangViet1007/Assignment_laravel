@@ -59,7 +59,6 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect()->route('home');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
-
 // card
 Route::prefix('gio-hang')->group(function () {
     Route::get('/danh-sach-gio-hang','CardController@listCard')->name('card');
@@ -125,8 +124,6 @@ Route::group(['prefix' => 'admin','middleware'=>['checkLogin','can:access_admin'
         Route::post('update/{id}', 'WebsettingController@update')->name('websetting.update');
 
         Route::get('delete/{id}', 'WebsettingController@destroy')->name('websetting.delete');
-
-
     });
 
 

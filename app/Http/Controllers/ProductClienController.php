@@ -33,7 +33,7 @@ class ProductClienController extends Controller
                 'product_options.option_name','product_options.option_value','product_options.image','product_options.price','product_options.sale','product_options.amount'
             ]
         )
-        ->where('products.status',1)->where('product_options.is_main',1)->limit(3)->orderBy('id','desc')->get() ;
+        ->where('products.status',config('common.products.status.active'))->where('product_options.is_main',1)->limit(3)->orderBy('id','desc')->get() ;
 
         return view()->share(['category_in_table_product'=> $category_in_table_product,'attributes_product'=>$attributes_product,'product_recent'=> $product_recent]);
     }
@@ -50,7 +50,7 @@ class ProductClienController extends Controller
                         'product_options.option_name','product_options.option_value','product_options.image','product_options.price','product_options.sale','product_options.amount'
                     ]
                 )
-                ->where('products.status',1)->where('product_options.is_main',1)->orderBy('products.id','DESC')->paginate(12) ;
+                ->where('products.status',config('common.products.status.active'))->where('product_options.is_main',config('common.product_option.is_main.active'))->orderBy('products.id','DESC')->paginate(12) ;
             }
             else if($request->type_filter == '2'){
                 $product = Product::
@@ -62,7 +62,7 @@ class ProductClienController extends Controller
                         'product_options.option_name','product_options.option_value','product_options.image','product_options.price','product_options.sale','product_options.amount'
                     ]
                 )
-                ->where('products.status',1)->where('product_options.is_main',1)->orderBy('product_options.price','DESC')->paginate(12) ;
+                ->where('products.status',config('common.products.status.active'))->where('product_options.is_main',config('common.product_option.is_main.active'))->orderBy('product_options.price','DESC')->paginate(12) ;
             }
             else if($request->type_filter == '3'){
                 $product = Product::
@@ -74,7 +74,7 @@ class ProductClienController extends Controller
                         'product_options.option_name','product_options.option_value','product_options.image','product_options.price','product_options.sale','product_options.amount'
                     ]
                 )
-                ->where('products.status',1)->where('product_options.is_main',1)->orderBy('product_options.price','asc')->paginate(12) ;
+                ->where('products.status',config('common.products.status.active'))->where('product_options.is_main',config('common.product_option.is_main.active'))->orderBy('product_options.price','asc')->paginate(12) ;
             }else{
                   // mac dinh vao trang
                 $product = Product::
@@ -86,7 +86,7 @@ class ProductClienController extends Controller
                         'product_options.option_name','product_options.option_value','product_options.image','product_options.price','product_options.sale','product_options.amount'
                     ]
                 )
-                ->where('products.status',1)->where('product_options.is_main',1)->orderBy('id','asc')->paginate(12) ;
+                ->where('products.status',config('common.products.status.active'))->where('product_options.is_main',config('common.product_option.is_main.active'))->orderBy('id','asc')->paginate(12) ;
             }
 
         }else{
@@ -100,7 +100,7 @@ class ProductClienController extends Controller
                     'product_options.option_name','product_options.option_value','product_options.image','product_options.price','product_options.sale','product_options.amount'
                 ]
             )
-            ->where('products.status',1)->where('product_options.is_main',1)->orderBy('id','asc')->paginate(12) ;
+            ->where('products.status',config('common.products.status.active'))->where('product_options.is_main',config('common.product_option.is_main.active'))->orderBy('id','asc')->paginate(12) ;
         }
 
         return view('homepage.product',compact('product')) ;
@@ -124,7 +124,7 @@ class ProductClienController extends Controller
                        'products.category_id',
                        'product_options.option_name','product_options.option_value','product_options.image','product_options.price','product_options.sale','product_options.amount',
                    ]
-               )->where('products.status',1)->where('product_options.is_main',1)->where('categories.id',$id_category)->orderBy('id','desc')->paginate(8);
+               )->where('products.status',config('common.products.status.active'))->where('product_options.is_main',config('common.product_option.is_main.active'))->where('categories.id',$id_category)->orderBy('id','desc')->paginate(8);
         // dd($product) ;
 
         return view('homepage.product_cate',compact('product','name_cate')) ;
@@ -139,13 +139,13 @@ class ProductClienController extends Controller
         ->join('users', 'users.id', 'products.user_id')
         ->join('product_options', 'product_options.product_id', 'products.id')
         ->select(['products.id as id_product','products.slug as slug_product', 'products.name as name_product', 'products.status as status_product', 'products.highlight', 'products.short_description', 'products.description','products.title','products.category_id','products.parent_id', 'categories.name as name_categories', 'users.name as name_users', 'product_options.price as id_option','product_options.price', 'product_options.sale', 'product_options.image', 'product_options.amount','product_options.id as id_option'])
-        ->where('product_options.is_main', 1)->orderBy('products.id','DESC')->first();
+        ->where('product_options.is_main',config('common.product_option.is_main.active'))->orderBy('products.id','DESC')->first();
 
         $product_lq = Product::join('categories', 'categories.id', 'products.category_id')
         ->join('users', 'users.id', 'products.user_id')
         ->join('product_options', 'product_options.product_id', 'products.id')
         ->select(['products.id as id_product','products.slug as slug_product','products.name as name_product', 'products.status as status_product', 'products.highlight', 'products.short_description', 'products.description','products.title','products.category_id', 'categories.name as name_categories', 'users.name as name_users', 'product_options.price', 'product_options.sale', 'product_options.image', 'product_options.amount'])
-        ->where('product_options.is_main', 1)->where('products.category_id','=',$product->category_id)->where('products.id','!=',$product->id_product)->orderBy('products.id','DESC')->limit(5)->get();
+        ->where('product_options.is_main',config('common.product_option.is_main.active'))->where('products.category_id','=',$product->category_id)->where('products.id','!=',$product->id_product)->orderBy('products.id','DESC')->limit(5)->get();
 
 
         // lấy các thuộ tính còn lại của các sản phẩm con
@@ -176,8 +176,7 @@ class ProductClienController extends Controller
         if($product_cha){
             $product_ngang = Product::where('parent_id',$product_cha->id_product)->where('id','!=',$product->id_product)->select('products.id as id_product')->get() ;
         }
-
-        // lấy za đánh gí của sản phẩm
+        // lấy za đánh gía của sản phẩm
         $reviews = ProductReview::where('product_id', $product->id_product)->where('status',1)->select('name','rating','description','created_at')->get();
 
         // laays za slide anh thumbail
@@ -191,7 +190,7 @@ class ProductClienController extends Controller
         ->select(['products.id as id_product', 'products.name as name_product','products.slug as slug_product' ,'products.status as status_product', 'products.highlight', 'products.short_description', 'products.title',
                   'product_options.price', 'product_options.sale', 'product_options.image', 'product_options.amount',
                   ])
-                  ->where('products.name', 'like', "%{$request->keyword}%")->where('product_options.is_main', 1)->limit(6)->get();
+                  ->where('products.name', 'like', "%{$request->keyword}%")->where('product_options.is_main',config('common.product_option.is_main.active'))->limit(6)->get();
 
         if (!$data) {
             return redirect()->route('home');
@@ -222,7 +221,7 @@ class ProductClienController extends Controller
                            'products.category_id',
                            'product_options.option_name','product_options.option_value','product_options.image','product_options.price','product_options.sale','product_options.amount',
                        ]
-                   )->where('products.status',1)->where('product_options.is_main',1)->where('products.name', 'like', "%{$request->search_name}%")->orderBy('id','desc')->paginate(8);
+                   )->where('products.status',config('common.products.status.active'))->where('product_options.is_main',config('common.product_option.is_main.active'))->where('products.name', 'like', "%{$request->search_name}%")->orderBy('id','desc')->paginate(8);
         }else{
             $product = Product::
             join('product_options', 'product_options.product_id','products.id')
@@ -232,7 +231,7 @@ class ProductClienController extends Controller
                            'products.category_id',
                            'product_options.option_name','product_options.option_value','product_options.image','product_options.price','product_options.sale','product_options.amount',
                        ]
-                   )->where('products.status',1)->where('product_options.is_main',1)->where('categories.id',$request->category_id)->where('products.name', 'like', "%{$request->search_name}%")->orderBy('id','desc')->paginate(8);
+                   )->where('products.status',config('common.products.status.active'))->where('product_options.is_main',config('common.product_option.is_main.active'))->where('categories.id',$request->category_id)->where('products.name', 'like', "%{$request->search_name}%")->orderBy('id','desc')->paginate(8);
         }
 
         return view('homepage.search_product',compact('product')) ;

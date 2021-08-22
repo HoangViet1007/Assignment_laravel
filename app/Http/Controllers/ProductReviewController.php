@@ -105,14 +105,14 @@ class ProductReviewController extends Controller
             return redirect()->route('product_review.index')->with('err', 'Thông tin này không tồn tại !');
         } else {
             try {
-                if ($model->status == 1) {
-                    $model->where('id', $id)->update(['status'=>0]);
+                if ($model->status == config('common.product_review.status.active')) {
+                    $model->where('id', $id)->update(['status'=>config('common.product_review.status.disabled')]);
                     return response()->json([
                         'code' => 200,
                         'message' => 'success'
                     ], 200);
-                } elseif ($model->status == 0) {
-                    $model->where('id', $id)->update(['status'=>1]);
+                } elseif ($model->status == config('common.product_review.status.disabled')) {
+                    $model->where('id', $id)->update(['status'=>config('common.product_review.status.active')]);
                     return response()->json([
                         'code' => 200,
                         'message' => 'success'

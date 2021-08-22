@@ -54,7 +54,11 @@
             'status' => [
                 'disabled' => 0 ,
                 'active' => 1 ,
-            ] ,
+            ],
+            'parent_id' => [
+                'true' => 1,
+                'false' => 0
+            ],
          ] ,
         'banners' => [
             'status' => [
@@ -88,10 +92,18 @@
                 'da_huy' => 4 ,
             ],
          ],
-
-
-
-
+         'product_option' => [
+            'is_main' => [
+                'disabled' => 0 ,
+                'active' => 1 ,
+            ],
+         ],
+         'product_review' => [
+            'status' => [
+                'disabled' => 0 ,
+                'active' => 1 ,
+            ],
+         ],
    ] ;
 
 ?>

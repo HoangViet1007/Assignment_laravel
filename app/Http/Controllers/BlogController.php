@@ -11,17 +11,17 @@ class BlogController extends Controller
     public function __construct()
     {
         // them gan day
-        $post_recent = Post::where('status', 1)->limit(5)->orderBy('id', 'DESC')->get();
+        $post_recent = Post::where('status',config('common.posts.status.active'))->limit(5)->orderBy('id', 'DESC')->get();
 
         // danh muc bai viet
-        $category_post = CategoryPost::where('status', 1)->get();
+        $category_post = CategoryPost::where('status',config('common.category_posts.status.active'))->get();
 
         return view()->share(['post_recent'=>$post_recent,'category_post'=>$category_post]);
     }
 
     public function blog()
     {
-        $blog = Post::where('status', 1)->paginate(3);
+        $blog = Post::where('status',config('common.posts.status.active'))->paginate(3);
 
         return view('homepage.blog', compact('blog'));
     }

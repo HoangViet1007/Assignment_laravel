@@ -53,7 +53,7 @@ class ProductController extends Controller
                       'categories.name as name_categories', 'users.name as name_users',
                       'product_options.price', 'product_options.sale', 'product_options.image', 'product_options.amount',
                       ])
-            ->where('product_options.is_main', 1)->orderBy('products.id','DESC');
+            ->where('product_options.is_main',config('common.product_option.is_main.active'))->orderBy('products.id','DESC');
         return Datatables::of($data)
             ->filter(
                 function ($query) use ($request) {
@@ -94,7 +94,7 @@ class ProductController extends Controller
     public function create()
     {
         // láy hết các type attribute và in za từng loại của nó ko
-        $type_attribute = TypeAttribute::where('status', 1)->get();
+        $type_attribute = TypeAttribute::where('status',config('common.type_attributes.status.active'))->get();
         //////
         $attribute = Attribute::all();
         $data = Category::all();
