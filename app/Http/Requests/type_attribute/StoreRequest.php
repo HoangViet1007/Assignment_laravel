@@ -26,7 +26,7 @@ class StoreRequest extends FormRequest
         return [
             'name'             => 'required|min:3|max:100|unique:type_attributes',
             'slug'             => 'required|min:3|max:100' ,
-            'status'           => 'required',
+            'status'           => 'required|in:'.implode(',',config('common.type_attributes.status')) ,
         ];
     }
     public function messages()
@@ -42,7 +42,7 @@ class StoreRequest extends FormRequest
             'slug.max'                  => 'Slug phải có độ dài từ 3-100 kí tự' ,
 
             'status.required'           => 'Hãy nhập trạng thái hoạt động !' ,
-
+            'status.in'                 => 'Trạng thái hoạt động không hợp lệ !' ,
         ] ;
     }
 }

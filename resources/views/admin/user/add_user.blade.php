@@ -61,6 +61,15 @@
                                             <span class="text-danger">{{ $errors->first('password') }}</span>
                                         @endif
                                     </div>
+                                    <div class="form-group">
+                                        <label for=""><b>Nhập lại mật khẩu</b><span class="text-danger ml-1">*</span></label>
+                                        <input type="password" placeholder="Nhập lại mật khẩu..."
+                                            class="form-control @error('cf_password') is-invalid @enderror" id="cf_password"
+                                            name="cf_password">
+                                        @if ($errors->has('cf_password'))
+                                            <span class="text-danger">{{ $errors->first('cf_password') }}</span>
+                                        @endif
+                                    </div>
 
                                 </div>
 

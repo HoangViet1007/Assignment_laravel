@@ -8,9 +8,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\Factory;
+use App\Models\Role;
 
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
     use SoftDeletes ;
@@ -68,4 +69,5 @@ class User extends Authenticatable
         // so sách giá trị đụa vào của route hiện tại xem có tồn tại trong các quyền lấy được hay ko
 
     }
+
 }

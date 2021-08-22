@@ -32,7 +32,7 @@ class StoreRequest extends FormRequest
             'address'          => 'required|min:3',
             'phone'            => 'required|digits:10',
             'description'      => 'required|min:3',
-            'status'           => 'required'
+            'status'           => 'required|in:'.implode(',',config('common.websettings.status')) ,
         ];
     }
 
@@ -58,6 +58,7 @@ class StoreRequest extends FormRequest
             'phone.digits'              => 'Số điện thoại không hợp lệ !' ,
 
             'status.required'           => 'Hãy nhập trạng thái hoạt động !' ,
+            'status.in'                 => 'Trạng thái hoạt động không hợp lệ !' ,
 
             'description.required'      => 'Hãy nhập nội dung cho website !' ,
             'description.min'           => 'Nội dung website phải có độ dài từ 3 kí tự trở lên !' ,

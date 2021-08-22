@@ -39,13 +39,12 @@ class CardController extends Controller
         // laays za thogn tins an pham
         $data_product = Product::where('products.id','=',$product_id)->where('product_options.id','=',$option_id)
             ->join('categories', 'categories.id', 'products.category_id')
-            ->join('users', 'users.id', 'products.user_id')
-            ->rightJoin('product_options', 'product_options.product_id', 'products.id')
+            ->join('product_options', 'product_options.product_id', 'products.id')
             ->select(['products.id as id_product', 'products.name as name_product','products.slug as slug_product' ,'products.status as status_product', 'products.highlight', 'products.short_description', 'products.title',
-                      'categories.id as id_categories','categories.name as name_categories', 'users.name as name_users',
+                      'categories.id as id_categories','categories.name as name_categories',
                       'product_options.option_name', 'product_options.price','product_options.sale', 'product_options.image', 'product_options.amount',
                       ])
-            ->orderBy('products.id','DESC')->first();
+            ->first();
 
             // laan dau mua hang
             if(empty(Session::get('cart'))){

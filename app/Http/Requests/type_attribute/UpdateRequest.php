@@ -26,7 +26,7 @@ class UpdateRequest extends FormRequest
         return [
             'name'             => 'required|min:3|max:100|unique:category_posts,name,' .request()->id,
             'slug'             => 'required|min:3|max:100' ,
-            'status'           => 'required',
+            'status'           => 'required|in:'.implode(',',config('common.type_attributes.status')) ,
         ];
     }
 
@@ -42,6 +42,7 @@ class UpdateRequest extends FormRequest
             'slug.max'                  => 'Slug phải có độ dài từ 3-100 kí tự' ,
 
             'status.required'           => 'Hãy nhập trạng thái hoạt động !' ,
+            'status.in'                 => 'Trạng thái hoạt động không hợp lệ !' ,
 
         ] ;
     }

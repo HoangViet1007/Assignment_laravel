@@ -4,7 +4,7 @@ namespace App\Http\Requests\user;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class StoreClienRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,8 +32,6 @@ class StoreRequest extends FormRequest
                 'phone' => 'required|min:10|numeric',
                 'address' => 'required',
                 'gender' => 'required|in:'.implode(',',config('common.user.gender')) ,
-                'status' => 'required|in:'.implode(',',config('common.user.status')) ,
-                'roles'=> 'required'
         ];
     }
 
@@ -68,10 +66,6 @@ class StoreRequest extends FormRequest
 
             'gender.required' => 'Hãy chọn giới tính !' ,
             'gender.in' => 'Giới tính không hợp lê' ,
-
-            'status.required' => 'Hãy chọn Trạng thái hoạt động !',
-            'status.in' => 'Trạng thái hoạt động không hợp lệ !' ,
-            'roles.required' =>"Hãy chọn chức vụ cho người dùng !"
 
         ];
     }

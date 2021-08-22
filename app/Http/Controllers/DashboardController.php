@@ -13,7 +13,7 @@ class DashboardController extends Controller
         $product = Product::count();
         $invioces = Invioce::count();
         // laa doanh thu
-        $doanh_thu = Invioce::where('status',3)->select('invioces.*')->get() ;
+        $doanh_thu = Invioce::where('status',config('common.invioce.status.thanh_cong'))->select('invioces.*')->get() ;
         $price_doanh_thu = "" ;
         foreach ($doanh_thu as $a){
            $price_doanh_thu = (int)$price_doanh_thu + (int)$a->total_price ;

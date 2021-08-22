@@ -1398,10 +1398,10 @@
 @endsection
 @section('js')
 <script>
-    var fut = new Date("Aug 20,2021 00:00:00").getTime();
+    var fut = new Date("Aug 31,2021 00:00:00").getTime();
     setInterval(function(){
             var now = new Date().getTime();
-            var D =fut - now ;
+            var D = fut - now ;
             var days = Math.floor(D/(1000*60*60*24)) ;
             var hours = Math.floor(D/(1000*60*60)) ;
             var mins = Math.floor(D/(1000*60)) ;

@@ -411,10 +411,17 @@
                                                             class="text-danger">*</span></label>
                                                 </div>
                                                 <div class="col-md-8 col-lg-9">
-                                                    <input type="text" class="form-control" name="name" id="inputName"
+                                                    @if(Auth::check())
+                                                        <input type="text" class="form-control" name="name" id="inputName"
+                                                        aria-label="Alex Hecker" required=""
+                                                        data-msg="Please enter your name." data-error-class="u-has-error"
+                                                        data-success-class="u-has-success" value="{{ Auth::user()->name }}">
+                                                    @else
+                                                        <input type="text" class="form-control" name="name" id="inputName"
                                                         aria-label="Alex Hecker" required=""
                                                         data-msg="Please enter your name." data-error-class="u-has-error"
                                                         data-success-class="u-has-success">
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="js-form-message form-group mb-3 row">
@@ -423,7 +430,11 @@
                                                             class="text-danger">*</span></label>
                                                 </div>
                                                 <div class="col-md-8 col-lg-9">
+                                                    @if(Auth::check())
+                                                    <input type="email" class="form-control" name="email" value="{{Auth::user()->email}}">
+                                                    @else
                                                     <input type="email" class="form-control" name="email">
+                                                    @endif
                                                 </div>
                                                 <div class="col-md-8 col-lg-9">
                                                     <input type="hidden" class="form-control" name="product_id" value="{{$product->id_product}}">
@@ -583,7 +594,6 @@
                 </div>
                 <!-- End Related products -->
             </div>
-
     </main>
 @endsection
 @section('css')

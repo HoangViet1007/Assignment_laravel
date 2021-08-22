@@ -14,6 +14,7 @@
                     <form method="POST" action="{{ route('attribute.update', ['id' => $attribute->id]) }}"
                         enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="id" value="{{ $attribute->id }}">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-8">

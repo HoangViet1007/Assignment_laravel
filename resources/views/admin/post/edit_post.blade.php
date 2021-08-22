@@ -131,25 +131,6 @@
     </div>
 </div>
 
-{{-- <!-- Button trigger modal -->
-<!-- Modal -->
-<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content d-flex justify-content-center align-content-center" style="width: 1000px;height: 600px;margin-left: -135px;">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
-                    <h2>File Image Mannager</h2>
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <iframe src="{{url('file')}}/dialog.php?field_id=image" style="width: 100%;border: 2px solid #FAFAFA;height:100%;overflow-y: auto;"></iframe>
-            </div>
-        </div>
-    </div>
-</div> --}}
 @include('sweetalert::alert')
 
 <script language="javascript">

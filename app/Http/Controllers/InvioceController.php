@@ -58,7 +58,11 @@ class InvioceController extends Controller
 
     public function invioceDetail(Request $request,$id){
         $invioce_detail = InvioceDetail::where('invioce_id',$id)->get() ;
-        // dd($invioce_detail) ;
+
+        $invioce_detail->load([
+            'product','product_options','attributes','invioces'
+        ]) ;
+
         return view('admin.invioce.invioce_detail',compact('invioce_detail')) ;
     }
 
@@ -80,7 +84,6 @@ class InvioceController extends Controller
 
     public function destroy($id)
     {
-
         $model = Invioce::find($id) ;
         if(!$model){
             return redirect()->route('invioce.index')->with('err','Thông tin này không tồn tại !') ;
@@ -91,7 +94,6 @@ class InvioceController extends Controller
                 foreach ($invioce_detail as $a){
                     InvioceDetail::destroy($a->id) ;
                 }
-
                 return response()->json([
                     'code' => 200 ,
                     'message' => 'success'

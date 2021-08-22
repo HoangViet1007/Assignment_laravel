@@ -29,8 +29,8 @@ class UpdateRequest extends FormRequest
             'short_description'             => 'required|min:3',
             'content'                       => 'required|min:3',
             // 'image'                         => 'required',
-            'status'                        => 'required',
-            'highlight'                     => 'required',
+            'status'                        => 'required|in:'.implode(',',config('common.posts.status')) ,
+            'highlight'                     => 'required|in:'.implode(',',config('common.posts.highlight')) ,
             'category_posts_id'             => 'required',
         ];
     }
@@ -55,8 +55,12 @@ class UpdateRequest extends FormRequest
             // 'image.required'                  => 'Hãy nhập hình ảnh cho website !',
 
             'status.required'                 => 'Hãy nhập trạng thái hoạt động !' ,
+            'status.in'                       => 'Trạng thái hoạt động không hợp lệ !' ,
+
 
             'highlight.required'              => 'Hãy nhập trang thái đặc biệt !' ,
+            'highlight.in'                    => 'Trạng thái đặc biệt không hợp lệ !' ,
+
 
             'category_posts_id.required'      => 'Hãy nhập danh mục bài viết !' ,
         ];

@@ -89,7 +89,7 @@ class UserController extends Controller
             'phone' => $request->phone,
             'address' => $request->address,
             'gender' => $request->gender,
-            'state' => $request->status,
+            'status' => $request->status,
         ];
         $user = user::create($data);
 

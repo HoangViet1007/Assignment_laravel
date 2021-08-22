@@ -29,7 +29,7 @@ class UpdateRequest extends FormRequest
             // 'image'             => 'required',
             'content'           => 'required|min:3',
             'link'              => 'required',
-            'status'            => 'required',
+            'status'           => 'required|in:'.implode(',',config('common.banners.status')) ,
         ];
     }
 
@@ -52,6 +52,7 @@ class UpdateRequest extends FormRequest
             'link.required'              => 'Hãy nhập đường dẫn cho banner !',
 
             'status.required'            => 'Hãy nhập trạng thái hoạt động !' ,
+            'status.in'                 => 'Trạng thái hoạt động không hợp lệ !'
         ] ;
     }
 }

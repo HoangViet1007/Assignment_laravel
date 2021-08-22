@@ -22,7 +22,7 @@ class AdminController extends Controller
 
     public function logout(){
         Auth::logout();
-            return view('layout_login.login')->with('logout','Đăng xuất thành công !');
+        return  redirect()->route('admin.login')->with('logout','Đăng xuất thành công !');
 
     }
 }

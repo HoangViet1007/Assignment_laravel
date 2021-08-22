@@ -49,7 +49,7 @@
                         <th>Trạng thái</th>
                         {{-- <th>Parent</th> --}}
                         <th class="text-center">
-                            <a href="{{route('invioce.create')}}" class="btn btn-danger"><i class="fas fa-plus"></i></a>
+                            Chức năng
                         </th>
                     </tr>
                 </thead>

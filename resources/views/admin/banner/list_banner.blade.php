@@ -192,7 +192,6 @@
                         },
                         error: function(data) {
                             if (data.code == 500) {
-                                that.parent().parent().parent().remove();
                                 Swal.fire(
                                     'Xoa không thành công !',
                                     'Xoá dữ liệu không thành công .',
